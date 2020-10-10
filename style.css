@@ -36,3 +36,16 @@ p {
 .hide {
     display: none;
 }
+
+.btn:hover {
+    border-style: double;
+    border-color: yellowgreen;
+}
+
+.correct {
+    background-color: green;
+}
+
+.wrong {
+    background-color: indianred;
+}

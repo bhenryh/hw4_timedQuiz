@@ -1,14 +1,21 @@
-// var startPage = document.getElementById("startPage");
+var startPage = document.getElementById("startPage");
 var qstnField = document.getElementById("qstnField");
 var timer = document.getElementById("timer");
-var question = document.getElementById("question");
-var answers = document.getElementById("answers");
+// var question = document.getElementById("question");
+// var answers = document.getElementById("answers");
 var results = document.getElementById("results");
 var nameInitials = document.getElementById("nameInitials");
 var initials = document.getElementById("initials");
 var submitBtn = document.getElementById("submitBtn");
 var scores = document.getElementById("scoresThang");
-var questions = [
+
+var Q = 0;
+var timerId;
+var time = 60;
+var score = 0;
+var highScore = [];
+
+var questionArray = [
     {
         title: "Commonly Used data types DO NOT include ______.",
         choices: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
@@ -40,14 +47,12 @@ var questions = [
     }
 ]
 
-var Q = 0
+startBtn.addEventListener("click", startQuiz);
+submitBtn.addEventListener("click", storeInitial);
+restartBtn.addEventListener("click", restart);
 
-startBtn.addEventListener("click", startGame);
-// submitBtn.addEventListener("click", storeInitial);
-
-function startGame() {
-    var startScreen = document.getElementById("startPage");
-    startScreen.setAttribute("class", "hide");
+function startQuiz() {
+    startPage.setAttribute("class", "hide");
     qstnField.removeAttribute("class", "hide");
     buildQuestion();
 
@@ -55,23 +60,23 @@ function startGame() {
 }
 
 function buildQuestion() {
-    var questionEl = document.getElementById("question");
-    var answersEl = document.getElementById("answers");
+    var question = document.getElementById("question");
+    var answers = document.getElementById("answers");
 
-    questionEl.textContent = questionArray[Q].question;
+    question.textContent = questionArray[Q].title;
 
-    answersEl.innerHTML = "";
+    answers.innerHTML = "";
 
-    questionArray[Q].choices.array.forEach(function (choice) {
+    questionArray[Q].choices.forEach(function (choices) {
         var button = document.createElement("button");
-        button.setAttribute("value", choice);
+        button.setAttribute("value", choices);
 
-        button.textContent = choice;
+        button.textContent = choices;
         button.setAttribute("class", "btn");
 
         button.onclick = selectAnswer;
 
-        answersEl.appendChild(button);
+        answers.appendChild(button);
     });
 }
 
@@ -79,63 +84,62 @@ function selectAnswer() {
     console.log(this.value);
 
     if (this.value !== questionArray[Q].answer) {
-        console.log("wrong");
+        // console.log("wrong");
         time -= 10;
         this.classList.add("wrong");
-        console.log(this);
+        // console.log(this);
 
     } else {
-        this.classlist.add("correct");
+        this.classList.add("correct");
         console.log("correct");
-        time += 10;
         score++
     }
     Q++;
     if (Q === questionArray.length) {
-        setTimeout(endGame, 500);
+        setTimeout(endQuiz, 750);
     } else {
-        setTimeout(buildQuestion, 500);
+        setTimeout(buildQuestion, 750);
     }
 }
 
-function endGame() {
+function endQuiz() {
     qstnField.setAttribute("class", "hide");
     clearInterval(timerID);
-    results.classlist.remove("hide");
+    results.classList.remove("hide");
 }
 
 function runClock() {
     time--;
     var timer = document.getElementById("timer");
     timer.textContent = time;
-    console.log(time);
 
     if (time <= 0) {
-        setTimeout(endGame, 500);
+        setTimeout(endQuiz, 750);
     }
 }
 
 function storeInitials(e) {
     e.preventDefault();
-    var initStart = intitFinish.value;
-    console.log(initStart);
-    console.log(score);
+    var initls = initField.value.trim();
+    // console.log(initStart);
+    // console.log(score);
 
+    var initObject = { initls, score };
+    highScore.push(initObject);
+
+    highScore.sort((a, b) => {
+        return b.score - a.score;
+    })
+
+    localStorage.setItem("initObject", JSON.stringify(highScore));
+    highScore = JSON.parse(localStorage.getItem(initObject));
+
+    var output = "";
+    for (var i = 0; i < highScore.length; i++) {
+        output += highScore[i].initls + " " + highScore[i].score + "<br>";
+    }
+    scoreBoardDisplay.innerHTML = output;
+
+    scoreBoard.classList.remove("hide");
+    initialForm.classList.add("hide");
 }
-
-
-
-// var questionEl = document.querySelector(".question")
-// var answerEl = document.querySelector(".answer")
-
-// var Quiz = [{question}]
-
-
-
-// //click
-// answerEl.addEventListener("click", function(e)({ e.preventDefault();
-//     var target1 = e.target;
-
-
-
-// }
