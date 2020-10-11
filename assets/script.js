@@ -7,7 +7,7 @@ var results = document.getElementById("results");
 var nameInitials = document.getElementById("nameInitials");
 var initials = document.getElementById("initials");
 var submitBtn = document.getElementById("submitBtn");
-var scores = document.getElementById("scoresThang");
+var scores = document.getElementById("scoreThang");
 
 var Q = 0;
 var timerId;
@@ -42,13 +42,13 @@ var questionArray = [
 
     {
         title: "A very useful tool used during development and debugging for printing content to the debugger is ______.",
-        choices: ["1. JavaScipt", "2. terminal / bash", "3. for loops", "4. console.log"],
+        choices: ["1. JavaScript", "2. terminal / bash", "3. for loops", "4. console.log"],
         answer: "4. console.log"
     }
 ]
 
 startBtn.addEventListener("click", startQuiz);
-submitBtn.addEventListener("click", storeInitial);
+submitBtn.addEventListener("click", storeInitials);
 restartBtn.addEventListener("click", restart);
 
 function startQuiz() {
@@ -96,9 +96,9 @@ function selectAnswer() {
     }
     Q++;
     if (Q === questionArray.length) {
-        setTimeout(endQuiz, 750);
+        setTimeout(endQuiz, 500);
     } else {
-        setTimeout(buildQuestion, 750);
+        setTimeout(buildQuestion, 500);
     }
 }
 
@@ -114,7 +114,7 @@ function runClock() {
     timer.textContent = time;
 
     if (time <= 0) {
-        setTimeout(endQuiz, 750);
+        setTimeout(endQuiz, 500);
     }
 }
 
@@ -138,7 +138,7 @@ function storeInitials(e) {
     for (var i = 0; i < highScore.length; i++) {
         output += highScore[i].initls + " " + highScore[i].score + "<br>";
     }
-    scoreBoardDisplay.innerHTML = output;
+    scoreboardDisplay.innerHTML = output;
 
     scoreBoard.classList.remove("hide");
     initialForm.classList.add("hide");
